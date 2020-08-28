@@ -14,7 +14,7 @@ const Product = (props) => {
                  <p><small>by :{seller}</small></p>
                  <p> $ {price}</p>
                  <br/>
-    <p> <small>only {stock} left in stock - order soon</small></p>
+                 <p> <small>only {stock} left in stock - order soon.</small></p>
             </div>
            
     
