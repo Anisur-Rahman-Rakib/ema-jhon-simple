@@ -13,3 +13,11 @@
 .product-img{
     margin-right: 10px;
 }
+.main-button {
+    background-color:goldenrod;
+    width: 150px;
+    height:30px;
+    border: radius 5px;
+    border: 1px solid darkgrey;
+    cursor: pointer;
+}
