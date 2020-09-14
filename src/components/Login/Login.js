@@ -20,8 +20,8 @@ function Login() {
       email: '',
       password:'',
       photo: '', 
-      error: '',  
-      success: false,                   
+       
+                       
   });
 
   const [loggedInUser , setloggedInUser] = useContext(UserContext);
@@ -55,7 +55,9 @@ console.log(displayName, email,photoURL);
        isSignedIn: false,
        name: '',
        email: '',
-       photo: '',     
+       photo: '',  
+       error: '',  
+       success: false,     
      } 
      setUser(signOutUser);
      console.log(res);
