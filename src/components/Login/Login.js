@@ -29,9 +29,10 @@ function Login() {
   const location = useLocation();
   let { from } = location.state || { from: { pathname: "/" } };
 
-  const provider = new firebase.auth.GoogleAuthProvider();
+  const googleProvider = new firebase.auth.GoogleAuthProvider();
+  const fbProvider = new firebase.auth.FacebookAuthProvider();
   const handlesignIn = () => {
-    firebase.auth().signInWithPopup(provider)
+    firebase.auth().signInWithPopup(googleProvider)
     .then(res => {
       const {displayName, email,photoURL} =res.user;
       const signedInUser ={
@@ -41,13 +42,38 @@ function Login() {
         photo: photoURL,     
       }
       setUser(signedInUser);
-console.log(displayName, email,photoURL);
+      setloggedInUser(signedInUser);
+      history.replace(from);
+console.log(displayName, email,photoURL,'goooooooooo');
     })
     .catch(err => {
       console.log(err);
       console.log(err.message);
     })
   }
+
+  const handleFbSignIn = () => {
+    firebase.auth().signInWithPopup(fbProvider).then(function(result) {
+      // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+      var token = result.credential.accessToken;
+      // The signed-in user info.
+      var user = result.user;
+      console.log('fb userrrr', user);
+      // ...
+    }).catch(function(error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // The email of the user's account used.
+      var email = error.email;
+      // The firebase.auth.AuthCredential type that was used.
+      var credential = error.credential;
+      // ...
+    });
+  }
+
+
+
   const handlesignOut = () => {
     firebase.auth().signOut()
     .then(res => {
@@ -166,7 +192,7 @@ const UpdateUserName = name => {
      <button onClick={handlesignIn} >Sign In</button>
      }
      <br/>
-     <button>sign in using facebook</button>
+     <button onClick={handleFbSignIn} >sign in using facebook</button>
      {
        user.isSignedIn && <div> 
          <p>Welcome , {user.name}</p> 
