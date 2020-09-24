@@ -1,0 +1,22 @@
+.newAccount{
+    color:yellow;
+    cursor: pointer;
+    background:gray;
+}
+.submitButtom{
+    cursor: pointer;
+    background:gray;
+    color: white;
+    border-radius: 5px;
+}
+.CustomfromDesing{
+    border:3px solid yellow;
+    width: 400px;
+    margin-left: 460px;
+    padding: 20px;
+   
+}
+.loginClass{
+
+    /* margin-left: 400px; */
+}

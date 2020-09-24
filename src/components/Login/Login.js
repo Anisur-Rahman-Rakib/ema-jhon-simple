@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import  {useState} from 'react';
+import './Login.css';
 
 
 import * as firebase from "firebase/app";
@@ -44,6 +45,7 @@ function Login() {
       setUser(signedInUser);
       setloggedInUser(signedInUser);
       history.replace(from);
+      
 console.log(displayName, email,photoURL,'goooooooooo');
     })
     .catch(err => {
@@ -54,22 +56,26 @@ console.log(displayName, email,photoURL,'goooooooooo');
 
   const handleFbSignIn = () => {
     firebase.auth().signInWithPopup(fbProvider).then(function(result) {
-      // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-      var token = result.credential.accessToken;
-      // The signed-in user info.
-      var user = result.user;
       
+      var token = result.credential.accessToken;
+    
+      const {displayName, email,photoURL}= result.user;
+      const signedInUser ={
+        isSignedIn:true,
+        name: displayName ,
+        email: email,
+        photo: photoURL,     
+      }
+      setUser(signedInUser);
+      setloggedInUser(signedInUser);
+      history.replace(from);
       console.log('fb userrrr', user);
-      // ...
+      
     }).catch(function(error) {
-      // Handle Errors here.
       var errorCode = error.code;
       var errorMessage = error.message;
-      // The email of the user's account used.
       var email = error.email;
-      // The firebase.auth.AuthCredential type that was used.
       var credential = error.credential;
-      // ...
     });
   }
 
@@ -189,11 +195,11 @@ const UpdateUserName = name => {
 
   return (
     <div style ={{textAlign:'center'}}>
-     { user.isSignedIn ? <button onClick={handlesignOut} >Sign Out</button> :
-     <button onClick={handlesignIn} >Sign In</button>
+     {/* { user.isSignedIn ? <button onClick={handlesignOut} >Sign Out</button> :
+     <button onClick={handlesignIn} >Sign In with Google</button>
      }
      <br/>
-     <button onClick={handleFbSignIn} >sign in using facebook</button>
+     <button onClick={handleFbSignIn} >sign in using facebook</button> */}
      {
        user.isSignedIn && <div> 
          <p>Welcome , {user.name}</p> 
@@ -204,26 +210,45 @@ const UpdateUserName = name => {
       
      <h1>Our Own Authentication</h1>
      
-     <input type="checkbox" onChange={() => setNewUser(!newUser)} name="newUser" id=""/>
-     <label htmlFor="newUser">new user sinup</label>
+     {/* <input type="checkbox" onChange={() => setNewUser(!newUser)} name="newUser" id=""/>
+     <label htmlFor="newUser">new user sinup</label> */}
      {/* <p>Name : {user.name}</p>
      <p>Email : {user.email}</p>
      <p>password : {user.password}</p> */}
+<div className="loginClass">
+  
+<form className='CustomfromDesing' onSubmit={handleSubmit}>
 
-     <form onSubmit={handleSubmit}>
+{newUser && <input type="text" name="name" onBlur={handleBlur} placeholder=" Enter Your First Name "/>}
+<br/>
+{newUser && <input type="text" name="name" onBlur={handleBlur} placeholder=" Enter Your Last Name "/>}
+<br/>
+<input type="text" name="email" onBlur={handleBlur} placeholder=" Enter Your Email " required/>
+<br/>
+<input type="password" name="password" onBlur={handleBlur} placeholder="Enter Your Password" id="" required/>
+<br/>
+<input className="submitButtom" type="submit" value={newUser ? 'Create an account' : 'LogIn'}/>
+<br/>
+{/* <label htmlFor="newUser">Don't have an account ?</label> */}
 
-     {newUser && <input type="text" name="name" onBlur={handleBlur} placeholder=" Enter Your Name "/>}
-     <br/>
-     <input type="text" name="email" onBlur={handleBlur} placeholder="Your Email Address" required/>
-     <br/>
-     <input type="password" name="password" onBlur={handleBlur} placeholder="Enter Your Password" id="" required/>
-     <br/>
-     <input type="submit" value={newUser ? 'sign up' : 'sign in'}/>
+{/* <label htmlFor="newUser">new user sinup</label> */}
+<p  onClick={() => setNewUser(!newUser)} name="newUser" id="">{!newUser ? "Don't have an account ? " : 'Already have an account ? '}<span className='newAccount'>{!newUser?'Create an account' : 'Login'}</span> </p>
 
-     </form>
-    <p style={{color: 'red'}}>{user.error}</p>
-   {user.success &&  <p style={{color: 'green'}}>user {newUser ? 'created' : 'Loged in'} successfully</p>
+
+
+</form>
+
+
+<p>or</p>
+{ user.isSignedIn ? <button onClick={handlesignOut} >Sign Out</button> :
+<button className='submitButtom' onClick={handlesignIn} >Continue with Google</button>
 }
+<br/>
+<button className='submitButtom' onClick={handleFbSignIn} >Continue with facebook</button>
+<p style={{color: 'red'}}>{user.error}</p>
+{user.success &&  <p style={{color: 'green'}}>user {newUser ? 'created' : 'Loged in'} successfully</p>
+}
+</div>
     </div>
   );
 }
