@@ -9,9 +9,9 @@ const Header = () => {
         <div className="Header">
            <img src={logo} alt=""/>
            <nav>
-               <Link to="/shop">shop</Link>
-               <Link to="/review">order Review</Link>
-               <Link to="Inventory">manage inventory</Link>
+               <Link to="/shop">Shop</Link>
+               <Link to="/review">Order Review</Link>
+               <Link to="Inventory">Manage Inventory</Link>
                <button onClick={() => setloggedInUser({})}>sign out</button>
            </nav>
         </div>
